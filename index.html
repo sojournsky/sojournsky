@@ -8,11 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0a0a0a;
+    --bg:#201911;
     --ink:#f2f0ea;
     --ink-dim:#8a8680;
     --line:rgba(242,240,234,0.14);
     --accent:#d69a5b;
+    --accent2:#5b7fa6;
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
   body{
@@ -30,6 +31,13 @@
     opacity:0.045; mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
+
+  .glow-field{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+  .glow{ position:absolute; width:50vw; height:50vw; max-width:560px; max-height:560px; border-radius:50%; filter:blur(120px); mix-blend-mode:screen; }
+  .glow-a{ top:-14%; right:-12%; background:var(--accent); opacity:0.10; }
+  .glow-b{ bottom:-10%; left:-14%; background:var(--accent2); opacity:0.10; }
+
+  main{ position:relative; z-index:1; }
 
   main{ max-width:680px; margin:0 auto; padding:110px 24px 90px; }
 
@@ -76,7 +84,7 @@
   h1::after{
     content:""; position:absolute; left:0; bottom:0;
     width:64px; height:2px;
-    background:linear-gradient(90deg, var(--accent), transparent);
+    background:linear-gradient(90deg, var(--accent), var(--accent2));
   }
   main > p.lede{
     color:var(--ink-dim); font-size:15.5px; max-width:480px; margin-top:20px;
@@ -84,15 +92,30 @@
 
   .services{ margin-top:64px; }
   .service{
+    display:grid; grid-template-columns:3px 1fr;
+    gap:18px;
     padding:26px 0;
     border-top:1px solid var(--line);
+    transition:padding-left .3s ease;
   }
+  .service:hover{ padding-left:6px; }
   .service:last-child{ border-bottom:1px solid var(--line); }
+  .service .bar{ background:var(--accent); border-radius:2px; }
+  .service:nth-child(2) .bar{ background:var(--accent2); }
+  .service:nth-child(3) .bar{ background:var(--accent); }
   .service h2{
     font-size:17px; font-weight:600;
   }
   .service p{
-    color:var(--ink-dim); font-size:14.5px; margin-top:8px; max-width:460px;
+    color:var(--ink-dim); font-size:14.5px; margin-top:8px; max-width:440px;
+  }
+
+  .aside{
+    margin-top:32px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-dim);
+    letter-spacing:0.02em;
   }
 
   .reveal{ opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease; }
@@ -115,24 +138,15 @@
     border-bottom:1px solid var(--accent); padding-bottom:2px;
     text-decoration:none;
   }
-
-  footer{ margin-top:70px; padding-top:40px; border-top:1px solid var(--line); }
-  footer a.contact{
-    font-family:'JetBrains Mono', monospace; font-size:13px;
-    letter-spacing:0.05em; text-transform:uppercase;
-    border-bottom:1px solid var(--accent); padding-bottom:2px;
-    text-decoration:none;
-  }
-  footer .scope{
-    display:block; margin-top:14px;
-    font-family:'JetBrains Mono', monospace; font-size:11px;
-    color:var(--ink-dim); letter-spacing:0.04em;
-  }
 </style>
 </head>
 <body>
 
 <div class="grain"></div>
+<div class="glow-field">
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+</div>
 
 <main>
   <img class="logo" src="assets/logo.png" alt="Sojourn Sky">
@@ -143,22 +157,31 @@
     <img src="assets/hero.jpg" alt="Illuminated coastal tower at dusk overlooking a bay in Malta">
   </div>
   <div class="hero-caption">
-    <span>Blue Hour</span>
-    <span>[Location] — [Month, Year]</span>
+    <span>First Light</span>
+    <span>Marfa, Malta — August 2026</span>
   </div>
 
   <div class="services">
     <div class="service reveal">
-      <h2>Aerial Stills</h2>
-      <p>[Short description — e.g. property, landscape, or editorial stills shot specifically in low-light conditions.]</p>
+      <span class="bar"></span>
+      <div>
+        <h2>Aerial Stills</h2>
+        <p>Landscape and coastline stills, shot specifically in the narrow window of low, warm light either side of sunrise.</p>
+      </div>
     </div>
     <div class="service reveal">
-      <h2>Aerial Film</h2>
-      <p>[Short description — e.g. short-form footage for a specific use case: real estate, hospitality, personal projects.]</p>
+      <span class="bar"></span>
+      <div>
+        <h2>Aerial Film</h2>
+        <p>Short-form footage for projects where atmosphere matters as much as coverage — property, hospitality, and personal work.</p>
+      </div>
     </div>
     <div class="service reveal">
-      <h2>Footage Licensing</h2>
-      <p>Existing stills and clips from the archive available to license for personal or commercial use.</p>
+      <span class="bar"></span>
+      <div>
+        <h2>Footage Licensing</h2>
+        <p>Existing stills and clips from the archive available to license for personal or commercial use.</p>
+      </div>
     </div>
   </div>
 
@@ -169,9 +192,7 @@
     <a href="https://instagram.com/sojourn.sky" target="_blank">@sojourn.sky →</a>
   </div>
 
-  <footer>
-    <span class="scope">Sydney, Australia</span>
-  </footer>
+  <div class="aside">sojourn — a brief stay, before moving on.</div>
 </main>
 
 <script>
